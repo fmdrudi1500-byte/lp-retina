@@ -417,12 +417,20 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offse
 
 /* ANIMAÇÕES DE ENTRADA */
 @keyframes fadeInUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
-.fade-in-up{animation:fadeInUp 0.6s ease both}
-.fade-in-up.delay-1{animation-delay:0.1s}
-.fade-in-up.delay-2{animation-delay:0.2s}
-.fade-in-up.delay-3{animation-delay:0.3s}
-.fade-in-up.delay-4{animation-delay:0.4s}
-.fade-in-up.delay-5{animation-delay:0.5s}
+.fade-in-up{
+  opacity:0;
+  transform:translateY(24px);
+  transition:opacity 0.55s ease,transform 0.55s ease;
+}
+.fade-in-up.visible{
+  opacity:1;
+  transform:translateY(0);
+}
+.fade-in-up.delay-1{transition-delay:0.1s}
+.fade-in-up.delay-2{transition-delay:0.2s}
+.fade-in-up.delay-3{transition-delay:0.3s}
+.fade-in-up.delay-4{transition-delay:0.4s}
+.fade-in-up.delay-5{transition-delay:0.5s}
 
 /* COOKIE BANNER LGPD */
 #cookie-banner{
@@ -1135,23 +1143,34 @@ function toggleFaq(btn){
   }
 }
 
-// IntersectionObserver para animações de entrada
+// Animações de entrada — sistema robusto multi-browser
 (function(){
-  if(!('IntersectionObserver' in window)){
-    document.querySelectorAll('.fade-in-up').forEach(function(el){el.classList.add('visible');});
-    return;
-  }
-  var observer=new IntersectionObserver(function(entries){
-    entries.forEach(function(entry){
-      if(entry.isIntersecting){
-        entry.target.classList.add('visible');
-        observer.unobserve(entry.target);
-      }
+  var els=Array.prototype.slice.call(document.querySelectorAll('.fade-in-up'));
+  if(!els.length)return;
+  function activate(el){el.classList.add('visible');}
+  function checkVisible(){
+    var vh=window.innerHeight||document.documentElement.clientHeight;
+    els.forEach(function(el){
+      if(el.classList.contains('visible'))return;
+      var r=el.getBoundingClientRect();
+      if(r.top<vh+60&&r.bottom>-60)activate(el);
     });
-  },{threshold:0.12,rootMargin:'0px 0px -40px 0px'});
-  document.querySelectorAll('.fade-in-up').forEach(function(el){
-    observer.observe(el);
-  });
+  }
+  checkVisible();
+  setTimeout(checkVisible,100);
+  setTimeout(checkVisible,500);
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(entries){
+      entries.forEach(function(e){if(e.isIntersecting){activate(e.target);io.unobserve(e.target);}});
+    },{threshold:0,rootMargin:'60px 0px 60px 0px'});
+    els.forEach(function(el){if(!el.classList.contains('visible'))io.observe(el);});
+  }
+  var ticking=false;
+  window.addEventListener('scroll',function(){
+    if(ticking)return;ticking=true;
+    requestAnimationFrame(function(){checkVisible();ticking=false;});
+  },{passive:true});
+  setTimeout(function(){els.forEach(function(el){activate(el);});},1500);
 })();
 
 // UTM dinâmico
