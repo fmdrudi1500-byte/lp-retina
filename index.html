@@ -26,23 +26,13 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
 <noscript><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"></noscript>
 
-<!-- GA4 + Google Ads — deferred until first user interaction -->
+<!-- GA4 + Google Ads -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-X3TM41VL1E"></script>
 <script>
 window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}window.gtag=gtag;
 gtag('js',new Date());
-var _gaLoaded=false;
-function loadGA(){
-  if(_gaLoaded)return;_gaLoaded=true;
-  var s=document.createElement('script');s.async=true;
-  s.src='https://www.googletagmanager.com/gtag/js?id=G-X3TM41VL1E';
-  s.onload=function(){
-    gtag('config','G-X3TM41VL1E',{send_page_view:true});
-    gtag('config','AW-7657239771');
-  };
-  document.head.appendChild(s);
-}
-['click','scroll','touchstart','keydown'].forEach(function(e){document.addEventListener(e,loadGA,{once:true,passive:true})});
-setTimeout(loadGA,5000);
+gtag('config','G-X3TM41VL1E',{send_page_view:true});
+gtag('config','AW-7657239771');
 var _scrollMarks={25:false,50:false,75:false,100:false};
 var _scrollTicking=false;
 function trackScroll(){
