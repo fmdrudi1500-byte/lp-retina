@@ -27,18 +27,13 @@
 <noscript><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"></noscript>
 
 <!-- GA4 + Google Ads -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-X3TM41VL1E"></script>
 <script>
 window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}window.gtag=gtag;
 gtag('js',new Date());
-(function(){
-  var s=document.createElement('script');s.async=true;
-  s.src='https://www.googletagmanager.com/gtag/js?id=G-X3TM41VL1E';
-  s.onload=function(){
-    gtag('config','G-X3TM41VL1E',{send_page_view:true});
-    gtag('config','AW-17598191636');
-  };
-  document.head.appendChild(s);
-})();
+gtag('config','G-X3TM41VL1E',{send_page_view:true});
+gtag('config','AW-17598191636');
+// Scroll depth tracking
 var _scrollMarks={25:false,50:false,75:false,100:false};
 var _scrollTicking=false;
 function trackScroll(){
@@ -1102,7 +1097,7 @@ function loadYT(el){
       if(b)b.classList.remove('hidden');
     },1500);
   } else if(consent==='true'){
-    loadGA();
+    // GA already loaded via standard script
   }
 })();
 
@@ -1111,12 +1106,12 @@ function cookieConsent(accepted){
   var b=document.getElementById('cookie-banner');
   if(b)b.classList.add('hidden');
   if(accepted){
-    loadGA();
+    // GA already loaded via standard script
     if(typeof gtag==='function'){
       gtag('consent','update',{'analytics_storage':'granted','ad_storage':'granted'});
     }
   } else {
-    _gaLoaded=true;
+    // GA already loaded
     if(typeof gtag==='function'){
       gtag('consent','update',{'analytics_storage':'denied','ad_storage':'denied'});
     }
